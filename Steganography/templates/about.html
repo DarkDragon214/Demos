@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T5 Steganography</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='style/images/logo.png') }}" class="img-fluid logo-image" alt="Logo" style="max-width: 300px; height: auto;">
+            </a>
+
+            <!-- Navbar toggler button for responsive -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links aligned to the right -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('hide') }}">Hide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('unhide') }}">Unhide</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="aboutus d-block w-100 h-100">
+      <div class="about-text">
+          <h2>About Steganography</h2>
+          <p>Steganography is a technique that hides data and information that is unnoticeable to the human eye. It is useful when relaying sensitive information where privacy is essential. Steganography is versatile in concealing data and can be utilized for data encryption and even against data breaches in the case of cyber attacks. Steganography can be achieved through multiple methods to hide such data through media such as images, audio, video, and text files. The most popular steganography technique is LSB substitution, where the secret data is embedded in the least significant bits of the media file. By changing the last bit of a pixel, the image remains visually indifferent, ensuring the data is secure since an intermediate viewer cannot notice any changes.</p>
+          <h3>Why Choose LSB?</h3>
+          <div class="list-style">
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+                  <ul>
+                      <li>Simplicity- easy implementation and consequently rapid development and easy debugging.</li>
+                      <li>Versatility, as it can be applied to various image types with predictable results.</li>
+                      <li>If you can upload it, we can encrypt it- we can conceal text and image files within images you desire.</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+    </div>
+  
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

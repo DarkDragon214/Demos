@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/hide.css') }}">
+    <title>Image Preview</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='style/images/logo.png') }}" class="img-fluid logo-image" alt="Logo" style="max-width: 300px; height: auto;">
+            </a>
+
+            <!-- Navbar toggler button for responsive -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links aligned to the right -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('hide') }}">Hide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('unhide') }}">Unhide</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <center>
+    <h1>Output Image</h1>
+    <img src="{{ image_url }}" alt="Processed Image" style="max-width: 100%; max-height: 500px;">
+        <h2>PSNR: {{ psnr }}</h2>
+        <h2>MSE: {{ mse }}</h2>
+    </center>
+</body>
+</html>

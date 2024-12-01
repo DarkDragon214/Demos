@@ -1,0 +1,19 @@
+#! /bin/bash
+mkdir -p testResults
+touch testResults/lscpu.txt
+lscpu > testResults/lscpu.txt
+for k in {0..4}
+do
+echo working on ${k}...
+	touch testResults/p2_tc${k}TestResults.csv
+	for i in 1 2 4 8 16 32 64 128 256 512 1024
+	do
+       #if you want to run n times, just change 64 to n-1
+	   for runTimes in {0..9}
+	   do
+	   ./htree ./p2_testcases/p2_tc$k $i
+	   done
+	done > testResults/p2_tc${k}TestResults.csv
+	done
+
+#END 

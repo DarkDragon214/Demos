@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/hide.css') }}">
+    <title>Upload Image</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='style/images/logo.png') }}" class="img-fluid logo-image" alt="Logo" style="max-width: 300px; height: auto;">
+            </a>
+
+            <!-- Navbar toggler button for responsive -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links aligned to the right -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('hide') }}">Hide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('unhide') }}">Unhide</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-container">
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" onchange="calculateProgress()">
+        <div class="mb-3">
+            <label for="carrierFormFile" class="form-label fw-bold">Select Carrier File (.png, .bmp, .tiff)</label>
+            <input class="form-control" type="file" id="carrierFormFile" name="carrier_file">
+        </div>
+        <div class="mb-3">
+            <label for="secretFormFile" class="form-label fw-bold">Select Secret File (.png, .jpg, .bmp, .tiff, .txt)</label>
+            <input class="form-control" type="file" id="secretFormFile" name="secret_file">
+        </div>
+        <label class="form-label fw-bold">Maximum Secret File Size (Mb): <span id="maxSecretSize"></span></label>
+
+        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100">
+            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%"></div>
+        </div>
+        <br>
+
+          <label for="encryptPassword" class="form-label fw-bold">Encryption Password</label>
+          <input type="password" class="form-control" id="encryptPassword" name="encryptPassword" placeholder="Optional">
+            <div id="passwordFeedback" class="form-label"></div>
+        <br>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Embed Secret Data</button>
+        </div>
+    </form>
+
+    </div>
+
+    <script>
+    const passwordInput = document.getElementById('encryptPassword');
+    function validatePassword() {
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        const password = passwordInput.value;
+        const minLength = password.length >= 12;
+
+        if (minLength) {
+          passwordFeedback.textContent = 'Password meets the requirements.';
+          passwordFeedback.classList.remove('text-danger');
+          passwordFeedback.classList.add('text-success');
+        } else {
+          passwordFeedback.textContent = 'Must be 12 or more characters.';
+          passwordFeedback.classList.remove('text-success');
+          passwordFeedback.classList.add('text-danger');
+        }
+    }
+    passwordInput.addEventListener('input', validatePassword);
+    async function calculateProgress() {
+        const carrierFile = document.getElementById('carrierFormFile').files[0];
+        const secretFile = document.getElementById('secretFormFile').files[0];
+
+        if (carrierFile && secretFile) {
+            const formData = new FormData();
+            formData.append('carrier_file', carrierFile);
+            formData.append('secret_file', secretFile);
+
+            const response = await fetch('/show_max_size', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            document.getElementById('maxSecretSize').innerText = data.max_secret_file_size.toFixed(4);
+            document.getElementById('progressBar').style.width = data.progress_percentage + '%';
+        }
+    }
+
+    async function calculateSize() {
+        const carrierFile = document.getElementById('carrierFormFile').files[0];
+
+        if (carrierFile) {
+            const formData = new FormData();
+            formData.append('carrier_file', carrierFile);
+
+            const response = await fetch('/get_max_size', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            document.getElementById('maxSecretSize').innerText = data.max_secret_file_size.toFixed(4);
+        }
+    }
+
+    document.getElementById('carrierFormFile').addEventListener('change', async () => {
+        await calculateSize();
+        await calculateProgress();
+    });
+
+    document.getElementById('secretFormFile').addEventListener('change', async () => {
+        await calculateProgress();
+    });
+    </script>
+
+</body>
+</html>

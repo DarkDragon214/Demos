@@ -1,0 +1,6 @@
+pycryptodomex
+pyargon2
+pillow
+numpy
+opencv-python
+flask
